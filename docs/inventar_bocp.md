@@ -64,6 +64,16 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
 > 3. Recepțiile (NIR) de la furnizori se fac în BOCP, în WinMentor sau în ambele?
 > 4. Încasările (bancă, casă) se introduc în WinMentor sau vin din BOCP?
 
+## Unde sunt exporturile în BOCP (verificat în Chrome, 12.11.2026)
+
+- **Rapoarte → Export date** (CSV, pe perioadă): Bonuri vânzare, Articole vândute, NIR, Articole recepționate,
+  Comenzi Marketplace, **Stoc zilnic**.
+- **Catalog → Liste de prețuri**: 9 liste pe client (Amc 324 articole, Campack 22, Mediapost 20, RTC 10 etc.), cu
+  „Editor centralizat” și „Import”. Pragurile pe cantitate nu apar aici → probabil în fișa produsului (tab „Prețuri”).
+- **Catalog → Catalog produse**: listă cu 100…10.000 pe pagină; iconița de lângă căutare face doar **PDF**.
+  Tab-uri de cercetat: „Prețuri”, „Unelte”, „Multi Editor”.
+- Clienți: de căutat în **Contacte**.
+
 ## Exporturi din BOCP de care avem nevoie pentru pilot
 
 Doar ca fișiere Excel/CSV pe calculator (în `date/`, care nu intră în git):
