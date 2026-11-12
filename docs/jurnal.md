@@ -26,3 +26,16 @@
 - Verificat: `https://odoo-test.rogri.tech/web/login` → 200, `X-Robots-Tag: noindex`, http → 301 spre https,
   managerul de baze dezactivat („disabled by the administrator”).
 - Verificat după: magazinul de test, n8n, app.rogri.tech răspund ca înainte; Odoo ~240 MB + baza ~120 MB RAM.
+- Exporturi din BOCP (în `date/`, doar local): stoc zilnic, contacte (70.887), catalog produse (1.150, citit din
+  pagină), jurnal mișcări ian–nov 2026 (145.788, citit din pagină cu script). Detalii și capcane în `inventar_bocp.md`.
+- **Exportul „Stoc zilnic” nu e de încredere** (ex. Cutie 200x150x90: −140.217 în export vs 2.072 în catalog) →
+  stocul se ia din catalog („Stoc Global”).
+- Import în `odoo_test` (`server/pregateste_produse.py` local → `server/importa_produse.sh` pe server):
+  1.150 produse stocabile, 27 categorii, 12 furnizori; cost = ultimul NIR 2026 (454) sau ultimele ieșiri (27);
+  preț vânzare = mediana bonurilor din ultimele 90 zile / 1,21 (427); fără preț → 0, nu 1 leu implicit.
+  Stoc: 328 produse, 201.427.459 buc., 11.836.608 lei la cost — identic cu fișierul.
+  153 produse cu stoc **negativ** în BOCP nu s-au importat (lista în `date/odoo_produse_raport.txt`).
+- **De decis cu Grig:** „Imprimare” (98,5 mil. buc. = 9,85 mil. lei), „DESEURI CARTON” (99,9 mil.), „CURIER RAPID”
+  (97.016) au stoc în BOCP, dar nu sunt marfă. Fără ele stocul real ≈ 2 mil. lei.
+- Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
+  fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
