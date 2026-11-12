@@ -1,0 +1,21 @@
+; Model pentru config/odoo.conf. Pe server, scriptul server/instaleaza.sh îl copiază în odoo.conf
+; și înlocuiește __ADMIN_PASSWD__ cu parola din /root/secrete/odoo-test.env. odoo.conf NU intră în git.
+[options]
+admin_passwd = __ADMIN_PASSWD__
+db_host = db
+db_user = odoo
+db_name = odoo_test
+dbfilter = ^odoo_test$
+list_db = False
+proxy_mode = True
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+; 2 procese de lucru + 1 pentru sarcini programate; limitele țin Odoo sub ~2 GB
+workers = 2
+max_cron_threads = 1
+limit_memory_soft = 671088640
+limit_memory_hard = 805306368
+limit_time_cpu = 120
+limit_time_real = 240
+gevent_port = 8072
+without_demo = all

@@ -1,0 +1,8 @@
+# parole și configurația cu parole — stau doar pe server
+.env
+config/odoo.conf
+# exporturi de date (BOCP, baze de date) — nu pleacă de pe calculator
+date/
+*.sql
+*.dump
+*.zip

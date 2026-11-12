@@ -1,0 +1,38 @@
+# Pilot Odoo pentru Rogri (înlocuirea BOCP) — rulează pe VPS-ul Hostinger, în /opt/odoo-test
+# Parolele NU stau aici: vin din fișierul .env de lângă (creat pe server, nu intră în git).
+name: odoo-test
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    volumes:
+      - db-date:/var/lib/postgresql/data
+    mem_limit: 768m
+
+  odoo:
+    image: odoo:19.0
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: ${PG_PASSWORD}
+    ports:
+      # doar local; din internet se ajunge prin nginx (odoo-test.rogri.tech), cu SSL
+      - "127.0.0.1:8069:8069"
+      - "127.0.0.1:8072:8072"
+    volumes:
+      - odoo-fisiere:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    mem_limit: 2g
+
+volumes:
+  db-date:
+  odoo-fisiere:
