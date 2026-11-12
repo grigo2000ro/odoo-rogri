@@ -84,6 +84,11 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
   bon consum, transfer, inventar…), nr./dată, preț vânzare cu TVA. Filtre: an (2010–2026), lună, punct de lucru,
   gestiune contabilă (Marfa 371, Produse finite 345, Materii prime 301, Ambalaje 381…), tip document.
   **Fără buton de export** → se poate extrage tabelul din pagină în CSV (local). Noiembrie 2026 (1–12), Marfa: 8.070 rânduri.
+  **Capcană:** gestiunea „Toate” dă raport gol → se ia fiecare gestiune separat.
+  Extras 12.11.2026 (script în pagină, 11 luni × 16 gestiuni, ~12 min): `date/bocp_jurnal_miscari_2026-01_2026-11.csv`,
+  145.788 mișcări, 528 produse; Marfa 145.263, Produse finite 493, Consumabile 29, Materii prime 3.
+  Documente: bon vânzare 141.047, NIR 3.648, bon consum 693, transfer 333, bon conversie 67.
+  Fiecare lună are și un rând „Toate” (subtotal) — de exclus la analiză. Verificat: datele documentelor cad în luna lor.
 
 ## Exporturi din BOCP de care avem nevoie pentru pilot
 
