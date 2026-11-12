@@ -79,6 +79,11 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
   (de la 15.000), „45000 > 59999” a dat restul (25.889). Exportat 12.11.2026: **70.887 contacte** (65.797 clienți,
   79 furnizori, 29.452 cu CUI). La granițele tranșelor pot lipsi 1–2 contacte — pentru migrarea finală se reface.
 - Gestiuni: **Depozit - En-Gros** și **Mainfreight - En-Gros**.
+- **Rapoarte → Rapoarte Gestiune → Jurnal mișcări detaliat** = fișa de magazie pentru toate produsele, pe **lună**:
+  produs, cod, intrare, ieșire, valoric, valoare achiziție, TVA achiziție, document (NIR, bon vânzare, bon conversie,
+  bon consum, transfer, inventar…), nr./dată, preț vânzare cu TVA. Filtre: an (2010–2026), lună, punct de lucru,
+  gestiune contabilă (Marfa 371, Produse finite 345, Materii prime 301, Ambalaje 381…), tip document.
+  **Fără buton de export** → se poate extrage tabelul din pagină în CSV (local). Noiembrie 2026 (1–12), Marfa: 8.070 rânduri.
 
 ## Exporturi din BOCP de care avem nevoie pentru pilot
 
