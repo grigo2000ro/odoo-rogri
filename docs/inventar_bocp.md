@@ -70,9 +70,12 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
   Comenzi Marketplace, **Stoc zilnic**.
 - **Catalog → Liste de prețuri**: 9 liste pe client (Amc 324 articole, Campack 22, Mediapost 20, RTC 10 etc.), cu
   „Editor centralizat” și „Import”. Pragurile pe cantitate nu apar aici → probabil în fișa produsului (tab „Prețuri”).
-- **Catalog → Catalog produse**: listă cu 100…10.000 pe pagină; iconița de lângă căutare face doar **PDF**.
-  Tab-uri de cercetat: „Prețuri”, „Unelte”, „Multi Editor”.
-- Clienți: de căutat în **Contacte**.
+  Stoc zilnic are coloane: ID produs BOCP, denumire, categorie, dată, stoc început/sfârșit de zi, cost mediu, cost.
+  **Capcană:** alegerea gestiunii (Depozit / Mainfreight) nu schimbă fișierul — cele două exporturi au ieșit identice.
+- **Catalog → Catalog produse**: fără export CSV/Excel (iconițele fac doar PDF/tipărire). Tab „Prețuri”: preț de vânzare
+  cu TVA pe punct de lucru, fără preț de achiziție și fără praguri. „Unelte” = înlocuire text în masă (ireversibil, NU).
+- **Contacte → Agenda Contacte**: are buton **Export** și iconiță XLS; tab-uri Clienți / Furnizori.
+- Gestiuni: **Depozit - En-Gros** și **Mainfreight - En-Gros**.
 
 ## Exporturi din BOCP de care avem nevoie pentru pilot
 
