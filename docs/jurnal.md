@@ -39,5 +39,13 @@
   în BOCP, dar nu sunt marfă. **Decis de Grig:** Imprimare (3064) și Curier rapid (3065) = **servicii** (fără stoc);
   cele 6 produse „DESEU…” = categoria **Deșeuri** (stocul rămâne ca în BOCP, fără cost).
   După reimport: stoc 2.016.248 buc. marfă + produse finite = **1.982.114,75 lei** la cost; deșeuri 100,8 mil. „buc.”, 0 lei.
+- Import parteneri (`server/pregateste_parteneri.py` local → `server/importa_parteneri.sh` pe server, ~20 min):
+  **70.887** (32.101 firme, 65.797 clienți, 79 furnizori, 29.242 cu CUI) + 16.528 adrese de livrare (corespondența
+  diferită de sediu), 0 respinși. Referința internă `BOCP-<ID>` → reimportul actualizează, nu dublează.
+  CNP-urile (26) nu s-au importat. 179 de CUI-uri neconforme din BOCP („-”, „****”, mai multe coduri, nr. J…) sunt
+  în notele partenerului, nu la CUI. Telefon2 → note (Odoo 19 nu mai are „mobil”). Termene de plată din BOCP (89).
+  1.231 de CUI-uri apar la mai multe contacte (dubluri în BOCP) — de curățat înainte de trecerea reală.
+- Capcane: Odoo respinge CUI „-” chiar cu `no_vat_validation` → curățare la pregătire + import care sare înregistrările
+  respinse; ieșirea trecută prin `tail` apare abia la final → progresul se vede numărând în bază.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
