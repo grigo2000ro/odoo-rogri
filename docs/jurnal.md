@@ -47,5 +47,15 @@
   1.233 de contacte au un CUI folosit și apar la mai multe contacte (dubluri în BOCP) — de curățat înainte de trecerea reală.
 - Capcane: Odoo respinge CUI „-” chiar cu `no_vat_validation` → curățare la pregătire + import care sare înregistrările
   respinse; ieșirea trecută prin `tail` apare abia la final → progresul se vede numărând în bază.
+- **Test cap-coadă** (`server/test_flux.py`) pe un client real din import (BOCP-5, Cluj), 100 × Cutie 200x150x90 +
+  10 × Bandă solvent albă: comanda S00003 (114,30 + TVA 24,00 = 138,30) → livrarea WH/OUT/00003 (stoc 2072→1972,
+  3410→3400) → factura INV/2026/00001 (4111 = 707 + 4427) → încasare bancă (512 = 4111, factura „plătită”). Merge.
+  - **e-Transport** cere pe fiecare livrare un transportator cu firmă asociată → creat „Curier (test - Innoship)” cu
+    partener „Transportator TEST (de inlocuit)”; în producție = curierii reali, cu CUI.
+  - Odoo 19: livrarea se validează doar după „pregătit” (`picked`); la prima validare întreabă dacă trimite **SMS
+    clientului** → oprit (`stock_text_confirmation = False`). Coada de e-mail oprită (baza are clienți reali).
+  - Stocul e evaluat **periodic** → livrarea nu face notă 607/371 în Odoo (descărcarea rămâne în WinMentor —
+    de confirmat cu contabilul).
+  - **XML e-Factura** se generează (doar local, netrimis), dar lipsesc datele firmei: CUI, stradă, județ.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
