@@ -32,10 +32,10 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
 | 7 | Prețuri speciale pe client / grup de clienți | DA | Liste de preț — standard |
 | 8 | Portal B2B (clienții comandă singuri) | DA | Portal / eCommerce — standard, de verificat |
 | 9 | Legătura cu magazinele (WooCommerce, Magento rogri.ro) | DA | modul suplimentar (conector), de ales |
-| 10 | AWB curieri (care: Fan, Sameday, Cargus, DPD…?) | DA (curieri: de precizat) | module suplimentare pe curier |
+| 10 | AWB curieri (care: Fan, Sameday, Cargus, DPD…?) | DA — prin **Innoship** (agregator, un singur API pentru toți curierii) | module suplimentare pe curier |
 | 11 | Comenzi la furnizori + necesar automat | DA | Achiziții + reguli de reaprovizionare — standard |
 | 12 | Feed-uri de produse de la furnizori | DA | modul suplimentar / import |
-| 13 | Producție (cutii proprii?) | DA | Fabricație (MRP) — standard |
+| 13 | Producție (cutii proprii?) | DA — cutii din carton | Fabricație (MRP) — standard |
 | 14 | eMag | DA | modul suplimentar, de ales |
 | 15 | CRM: apeluri din centrală, e-mailuri | DA | CRM standard; apelurile — de integrat |
 | 16 | Abonamente | NU | — (nu e nevoie de Enterprise pentru asta) |
@@ -53,7 +53,8 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
 - Nevoie de module suplimentare / integrare (de ales și testat pe rând):
   9 conector WooCommerce + Magento, 10 curieri, 12 feed-uri furnizori, 14 eMag, 15 apeluri din centrală,
   19 tipărire automată, 21 punte spre WinMentor (după răspunsul contabilului).
-- De precizat: ce curieri; ce se produce (rândul 13).
+- AWB: prin Innoship → o singură integrare Odoo–Innoship (de verificat dacă există modul gata sau o facem prin API).
+- Producție: cutii din carton → Fabricație cu rețete (carton → cutie).
 
 ## Întrebarea pentru contabil
 
