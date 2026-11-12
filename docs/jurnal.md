@@ -56,6 +56,12 @@
     clientului** → oprit (`stock_text_confirmation = False`). Coada de e-mail oprită (baza are clienți reali).
   - Stocul e evaluat **periodic** → livrarea nu face notă 607/371 în Odoo (descărcarea rămâne în WinMentor —
     de confirmat cu contabilul).
-  - **XML e-Factura** se generează (doar local, netrimis), dar lipsesc datele firmei: CUI, stradă, județ.
+  - **XML e-Factura** se generează (doar local, netrimis), dar lipseau datele firmei: CUI, stradă, județ.
+    Puse din BOCP (Sistem → Setări cont → Date companie, cu acordul lui Grig): RO17326100, J2005000552294,
+    str Toma Socolescu nr 33 B, Paulești 107400, Prahova. După asta XML-ul CIUS-RO 1.0.1 iese **fără erori**
+    (furnizor RO-PH, client cu CUI RO-CJ, 2 linii, TVA 21% = 24,00, fără TVA 114,30). „De plată 0,00” pentru că
+    factura era deja încasată (normal, e-Factura se trimite înainte de încasare → 138,30).
+  - De făcut pentru producție: seria facturilor (acum „INV/2026/…”, în BOCP alta), conectarea la SPV (certificat
+    digital, o face Grig), transmiterea în mediul de test ANAF.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
