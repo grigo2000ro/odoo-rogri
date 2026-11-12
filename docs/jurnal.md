@@ -63,5 +63,18 @@
     factura era deja încasată (normal, e-Factura se trimite înainte de încasare → 138,30).
   - De făcut pentru producție: seria facturilor (acum „INV/2026/…”, în BOCP alta), conectarea la SPV (certificat
     digital, o face Grig), transmiterea în mediul de test ANAF.
+- **Liste de preț pe client** (BOCP: Catalog → Liste de prețuri; citite din pagină cu script →
+  `date/bocp_liste_pret_2026-11-12.csv`): 9 liste, 383 reguli, fiecare alocată unui singur client (planteo — niciunul).
+  Două feluri de reguli: **adaos % peste prețul de achiziție** (Amc 324, Campack 22, Optimpack 1; toate 13%) și
+  **preț fix fără TVA** (restul). Importate cu `server/importa_liste_pret.sh` ca liste Odoo „BOCP - <nume>”
+  (adaos → formulă pe cost, fix → preț fix), alocate celor 8 clienți (ref BOCP-<id>).
+  Verificat (`server/test_liste_pret.py`, comenzile ciornă S00004–S00006 pentru Amc, RTC, Campack): prețurile din
+  Odoo = cele din BOCP la toate liniile. Atenție: adaosul se aplică pe costul din Odoo (ultimul NIR); la 23 din 347
+  produse costul diferă cu >2% de „preț achiziție” din BOCP. 8 produse din lista Amc ies mai scumpe decât prețul
+  obișnuit de vânzare (mediana ultimelor 90 zile) — de verificat cu Grig.
+- **Grila de preț pe cantitate NU e în BOCP**: e în Magento (ambalajecurierat.ro, 257 produse, 4–6 trepte, aceeași
+  pentru toți) și e deja extrasă în proiectul `ambalajecurierat` (`date/extras/`). În Odoo ar fi o listă cu praguri
+  (`min_quantity`) — pas separat.
+- Capcane BOCP: fereastra listei se deschide pe ultimul tab folosit; la listele mici lipsește selectorul de pagină.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
