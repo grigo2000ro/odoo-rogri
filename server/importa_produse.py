@@ -35,22 +35,35 @@ def furnizor(nume):
         furnizori[nume] = f or Partner.create({"name": nume, "is_company": True, "supplier_rank": 1})
     return furnizori[nume]
 
+def pune_stoc(produs, cant):
+    Quant.with_context(inventory_mode=True).create({
+        "product_id": produs.id, "location_id": loc.id, "inventory_quantity": cant,
+    }).action_apply_inventory()
+
 randuri = list(csv.DictReader(open(FISIER, encoding="utf-8")))
 noi = actualizate = cu_stoc = 0
 for i, r in enumerate(randuri, 1):
+    tip = r.get("tip") or "produs"
+    serviciu = tip == "serviciu"
     vals = {
         "name": r["nume"] or r["cod"],
         "default_code": r["cod_odoo"],
-        "type": "consu",
-        "is_storable": True,
-        "categ_id": categorie(r["categorie"]).id,
+        "type": "service" if serviciu else "consu",
+        "categ_id": categorie("Servicii" if serviciu else "Deșeuri" if tip == "deseu" else r["categorie"]).id,
         "sale_ok": True,
         "purchase_ok": True,
     }
+    if not serviciu:
+        vals["is_storable"] = True
     pret, cost = num(r["pret_fara_tva"]), num(r["cost"])
     # fără vânzări în ultimele 90 de zile → preț 0 (Odoo ar pune implicit 1 leu, adică o cifră inventată)
     vals["list_price"] = round(pret, 4) if pret is not None else 0.0
     t = Tmpl.search([("default_code", "=", r["cod_odoo"])], limit=1)
+    if t and serviciu and t.is_storable:
+        # era stocabil: întâi stocul la 0, apoi devine serviciu
+        if t.product_variant_id.qty_available:
+            pune_stoc(t.product_variant_id, 0.0)
+        t.is_storable = False
     if t:
         t.write(vals)
         actualizate += 1
@@ -64,10 +77,8 @@ for i, r in enumerate(randuri, 1):
     if f and not t.seller_ids.filtered(lambda s: s.partner_id == f):
         env["product.supplierinfo"].create({"partner_id": f.id, "product_tmpl_id": t.id, "price": round(cost or 0, 4)})
     q = num(r["stoc_import"]) or 0.0
-    if q > 0 or p.qty_available:
-        Quant.with_context(inventory_mode=True).create({
-            "product_id": p.id, "location_id": loc.id, "inventory_quantity": q,
-        }).action_apply_inventory()
+    if not serviciu and (q > 0 or p.qty_available):
+        pune_stoc(p, q)
         cu_stoc += q > 0
     if i % 200 == 0:
         env.cr.commit()

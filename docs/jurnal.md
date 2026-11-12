@@ -35,7 +35,9 @@
   preț vânzare = mediana bonurilor din ultimele 90 zile / 1,21 (427); fără preț → 0, nu 1 leu implicit.
   Stoc: 328 produse, 201.427.459 buc., 11.836.608 lei la cost — identic cu fișierul.
   153 produse cu stoc **negativ** în BOCP nu s-au importat (lista în `date/odoo_produse_raport.txt`).
-- **De decis cu Grig:** „Imprimare” (98,5 mil. buc. = 9,85 mil. lei), „DESEURI CARTON” (99,9 mil.), „CURIER RAPID”
-  (97.016) au stoc în BOCP, dar nu sunt marfă. Fără ele stocul real ≈ 2 mil. lei.
+- „Imprimare” (98,5 mil. buc. = 9,85 mil. lei), „DESEURI CARTON” (99,9 mil.), „CURIER RAPID” (97.016) aveau stoc
+  în BOCP, dar nu sunt marfă. **Decis de Grig:** Imprimare (3064) și Curier rapid (3065) = **servicii** (fără stoc);
+  cele 6 produse „DESEU…” = categoria **Deșeuri** (stocul rămâne ca în BOCP, fără cost).
+  După reimport: stoc 2.016.248 buc. marfă + produse finite = **1.982.114,75 lei** la cost; deșeuri 100,8 mil. „buc.”, 0 lei.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.

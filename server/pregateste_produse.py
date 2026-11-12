@@ -81,7 +81,16 @@ raport += [
 for _, r in p[p.stoc_global < 0].sort_values("stoc_global").iterrows():
     raport.append(f"  {r.cod}; {r.nume}; {r.stoc_global:g}")
 
-cols = ["cod_odoo", "cod", "id_bocp", "nume", "categorie", "furnizor", "cost", "sursa_cost", "pret_fara_tva",
+# Tipuri decise de Grig (12.11.2026): Imprimare și Curier rapid = servicii (fără stoc);
+# tot ce începe cu „DESEU” = deșeuri (categoria „Deșeuri”, stocul rămâne ca în BOCP).
+SERVICII = {"3064", "3065"}
+p["tip"] = "produs"
+p.loc[p["nume"].str.upper().str.startswith("DESEU"), "tip"] = "deseu"
+p.loc[p["cod"].isin(SERVICII), "tip"] = "serviciu"
+p.loc[p["tip"] == "serviciu", "stoc_import"] = 0
+raport.insert(5, f"Servicii: {(p.tip == 'serviciu').sum()}, deșeuri: {(p.tip == 'deseu').sum()}")
+
+cols = ["cod_odoo", "cod", "id_bocp", "nume", "tip", "categorie", "furnizor", "cost", "sursa_cost", "pret_fara_tva",
         "stoc_global", "stoc_import"]
 p[cols].to_csv(D / "odoo_produse.csv", index=False, encoding="utf-8")
 (D / "odoo_produse_raport.txt").write_text("\n".join(raport), encoding="utf-8")
