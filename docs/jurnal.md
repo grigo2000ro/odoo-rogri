@@ -17,5 +17,12 @@
   (`odoo shell -d odoo_test`); `docker compose exec` nu trece prin entrypoint → parola bazei trebuie în `odoo.conf`;
   dacă țara firmei nu e RO înainte de contabilitate, Odoo pune planul generic în USD.
 - Hestia: domeniul `odoo-test.rogri.tech` la utilizatorul `app`, șablon proxy `odoo` (copiat în
-  `/usr/local/hestia/data/templates/web/nginx/`). **SSL încă nu** — înregistrarea DNS nu apare la serverele Hostinger.
+  `/usr/local/hestia/data/templates/web/nginx/`).
+- DNS: înregistrarea nu se salvase; adăugată de Claude în hPanel (cu acordul lui Grig): A `odoo-test` → 187.124.166.96,
+  TTL 300. A apărut la serverele Hostinger după ~3 minute.
+- SSL Let's Encrypt (`v-add-letsencrypt-domain app odoo-test.rogri.tech`), valabil până la 10.02.2027 (reînnoire automată
+  Hestia). **Capcană:** Hestia n-a reîncărcat nginx după certificat → HTTPS servea certificatul implicit până la
+  `systemctl reload nginx`.
+- Verificat: `https://odoo-test.rogri.tech/web/login` → 200, `X-Robots-Tag: noindex`, http → 301 spre https,
+  managerul de baze dezactivat („disabled by the administrator”).
 - Verificat după: magazinul de test, n8n, app.rogri.tech răspund ca înainte; Odoo ~240 MB + baza ~120 MB RAM.
