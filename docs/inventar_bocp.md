@@ -23,28 +23,37 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
 
 | # | Funcție în BOCP | Folosim? | În Odoo Community |
 |---|---|---|---|
-| 1 | Comenzi manuale / oferte către clienți | | Vânzări — standard |
-| 2 | Facturare + trimitere automată e-Factura | | Facturare + `l10n_ro_edi` — standard |
-| 3 | Încasări (casă, bancă), urmărire facturi neîncasate | | Facturare — standard |
-| 4 | Stocuri: recepții (NIR), transferuri, inventar | | Stocuri — standard |
-| 5 | Mai multe gestiuni / depozite | | Stocuri — standard |
-| 6 | Liste de preț cu reduceri pe cantitate | | Liste de preț — standard |
-| 7 | Prețuri speciale pe client / grup de clienți | | Liste de preț — standard |
-| 8 | Portal B2B (clienții comandă singuri) | | Portal / eCommerce — standard, de verificat |
-| 9 | Legătura cu magazinele (WooCommerce, Magento rogri.ro) | | modul suplimentar (conector), de ales |
-| 10 | AWB curieri (care: Fan, Sameday, Cargus, DPD…?) | | module suplimentare pe curier |
-| 11 | Comenzi la furnizori + necesar automat | | Achiziții + reguli de reaprovizionare — standard |
-| 12 | Feed-uri de produse de la furnizori | | modul suplimentar / import |
-| 13 | Producție (cutii proprii?) | | Fabricație (MRP) — standard |
-| 14 | eMag | | modul suplimentar, de ales |
-| 15 | CRM: apeluri din centrală, e-mailuri | | CRM standard; apelurile — de integrat |
-| 16 | Abonamente | | Abonamente sunt **doar Enterprise** → de discutat |
-| 17 | e-Transport (UIT) | | `l10n_ro_edi_stock` — standard |
-| 18 | Retururi de la clienți | | Stocuri + facturi storno — standard |
-| 19 | Tipărire automată (facturi, AWB, etichete) | | de discutat (imprimantă în rețea) |
-| 20 | Rapoarte zilnice (vânzări, marjă, stoc) | | Rapoarte standard + tabloul de bord propriu |
-| 21 | Export spre WinMentor | | prin SPV e-Factura + **întrebarea pentru contabil** |
+| 1 | Comenzi manuale / oferte către clienți | DA | Vânzări — standard |
+| 2 | Facturare + trimitere automată e-Factura | DA | Facturare + `l10n_ro_edi` — standard |
+| 3 | Încasări (casă, bancă), urmărire facturi neîncasate | DA | Facturare — standard |
+| 4 | Stocuri: recepții (NIR), transferuri, inventar | DA | Stocuri — standard |
+| 5 | Mai multe gestiuni / depozite | DA | Stocuri — standard |
+| 6 | Liste de preț cu reduceri pe cantitate | DA | Liste de preț — standard |
+| 7 | Prețuri speciale pe client / grup de clienți | DA | Liste de preț — standard |
+| 8 | Portal B2B (clienții comandă singuri) | DA | Portal / eCommerce — standard, de verificat |
+| 9 | Legătura cu magazinele (WooCommerce, Magento rogri.ro) | DA | modul suplimentar (conector), de ales |
+| 10 | AWB curieri (care: Fan, Sameday, Cargus, DPD…?) | DA (curieri: de precizat) | module suplimentare pe curier |
+| 11 | Comenzi la furnizori + necesar automat | DA | Achiziții + reguli de reaprovizionare — standard |
+| 12 | Feed-uri de produse de la furnizori | DA | modul suplimentar / import |
+| 13 | Producție (cutii proprii?) | DA | Fabricație (MRP) — standard |
+| 14 | eMag | DA | modul suplimentar, de ales |
+| 15 | CRM: apeluri din centrală, e-mailuri | DA | CRM standard; apelurile — de integrat |
+| 16 | Abonamente | NU | — (nu e nevoie de Enterprise pentru asta) |
+| 17 | e-Transport (UIT) | DA | `l10n_ro_edi_stock` — standard |
+| 18 | Retururi de la clienți | DA | Stocuri + facturi storno — standard |
+| 19 | Tipărire automată (facturi, AWB, etichete) | DA | de discutat (imprimantă în rețea) |
+| 20 | Rapoarte zilnice (vânzări, marjă, stoc) | DA | Rapoarte standard + tabloul de bord propriu |
+| 21 | Export spre WinMentor | DA | prin SPV e-Factura + **întrebarea pentru contabil** |
 | 22 | Altceva? | | |
+
+## Concluzie după răspunsuri (12.11.2026)
+
+- Abonamentele NU se folosesc → **Odoo Community ajunge**; nu există motiv pentru Enterprise.
+- Standard în Community (doar configurare): 1–8, 11, 13, 17, 18, 20.
+- Nevoie de module suplimentare / integrare (de ales și testat pe rând):
+  9 conector WooCommerce + Magento, 10 curieri, 12 feed-uri furnizori, 14 eMag, 15 apeluri din centrală,
+  19 tipărire automată, 21 punte spre WinMentor (după răspunsul contabilului).
+- De precizat: ce curieri; ce se produce (rândul 13).
 
 ## Întrebarea pentru contabil
 
