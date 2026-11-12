@@ -1,9 +1,11 @@
 ; Model pentru config/odoo.conf. Pe server, scriptul server/instaleaza.sh îl copiază în odoo.conf
-; și înlocuiește __ADMIN_PASSWD__ cu parola din /root/secrete/odoo-test.env. odoo.conf NU intră în git.
+; și înlocuiește __ADMIN_PASSWD__ / __PG_PASSWORD__ cu parolele din /root/secrete/odoo-test.env.
+; odoo.conf NU intră în git.
 [options]
 admin_passwd = __ADMIN_PASSWD__
 db_host = db
 db_user = odoo
+db_password = __PG_PASSWORD__
 db_name = odoo_test
 dbfilter = ^odoo_test$
 list_db = False
@@ -18,4 +20,4 @@ limit_memory_hard = 805306368
 limit_time_cpu = 120
 limit_time_real = 240
 gevent_port = 8072
-without_demo = all
+without_demo = True
