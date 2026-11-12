@@ -74,7 +74,10 @@ Sursa: ce a spus Grig (12.11.2026), conectorul BOCP (citire, 12.11.2026), bocp.r
   **Capcană:** alegerea gestiunii (Depozit / Mainfreight) nu schimbă fișierul — cele două exporturi au ieșit identice.
 - **Catalog → Catalog produse**: fără export CSV/Excel (iconițele fac doar PDF/tipărire). Tab „Prețuri”: preț de vânzare
   cu TVA pe punct de lucru, fără preț de achiziție și fără praguri. „Unelte” = înlocuire text în masă (ireversibil, NU).
-- **Contacte → Agenda Contacte**: are buton **Export** și iconiță XLS; tab-uri Clienți / Furnizori.
+- **Contacte → Agenda Contacte → Export**: alegi coloanele (42 implicit), apoi o tranșă, apoi „Descarcă fișier Excel”.
+  **Capcană:** tranșele nu sunt ce scrie pe ele: „0 > 14999” a dat 14.999 rânduri, „15000 > 29999” a dat 29.999
+  (de la 15.000), „45000 > 59999” a dat restul (25.889). Exportat 12.11.2026: **70.887 contacte** (65.797 clienți,
+  79 furnizori, 29.452 cu CUI). La granițele tranșelor pot lipsi 1–2 contacte — pentru migrarea finală se reface.
 - Gestiuni: **Depozit - En-Gros** și **Mainfreight - En-Gros**.
 
 ## Exporturi din BOCP de care avem nevoie pentru pilot
