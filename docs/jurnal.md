@@ -127,5 +127,11 @@
     Copie înainte: `/root/backup-claude/odoo_test_cui_inainte_RO_20261113_0954.csv` (id, ref, vat vechi). După:
     0 plătitori fără RO, 0 neplătitori cu RO. Denumirile și adresele NU s-au schimbat (de verificat de un om).
   - Comparația ține cont de forme diferite: „Mun. Cluj-Napoca” = „Cluj Napoca”, „SC X SRL” = „X S.R.L.”, PFA.
+- **Adrese repetate din BOCP** (Grig: „în BOCP apărea eroarea cu adresa duplicată”): din 83.815 adrese, **885 au
+  textul repetat** în câmpul stradă (848 × 2, 19 × 3, 15 × 4, 3 × 6–8; ex. „STR MITROPOLIEI NR 39” × 8) — vine
+  chiar din exportul BOCP. 428 sunt aceeași bucată repetată exact (corectabile automat, 39 sunt adrese de livrare);
+  restul de ~457 sunt amestecate (ex. „Str Sofiei str. Sofiei 3str. Sofiei 3…”) → de corectat de un om; câteva
+  „× 2” sunt false alarme („Mircea Vodă … intersecție Mircea Vodă”). Separat: **735 adrese de livrare identice cu
+  sediul** (scrise puțin diferit) — inutile. Nu există livrări dublate la același client.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
