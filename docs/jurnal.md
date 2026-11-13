@@ -123,6 +123,9 @@
   - **Verificarea completă** (29.245 clienți cu CUI, ~12 minute): 27.084 activi, **1.692 INACTIVI, 192 RADIAȚI**,
     10 negăsiți, 267 CUI invalid; **2.921 cu „RO” greșit**, 1.423 denumiri diferite, 5.351 localități diferite;
     15.774 plătitori TVA, 7.981 în registrul e-Factura. De curățat înainte de trecere (filtrele din Contacte).
+  - **„RO” corectat după ANAF** (cerut de Grig): 2.921 clienți — plătitor TVA → „RO”+CUI, neplătitor → doar cifrele.
+    Copie înainte: `/root/backup-claude/odoo_test_cui_inainte_RO_20261113_0954.csv` (id, ref, vat vechi). După:
+    0 plătitori fără RO, 0 neplătitori cu RO. Denumirile și adresele NU s-au schimbat (de verificat de un om).
   - Comparația ține cont de forme diferite: „Mun. Cluj-Napoca” = „Cluj Napoca”, „SC X SRL” = „X S.R.L.”, PFA.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
