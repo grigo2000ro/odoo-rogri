@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Lista de comenzi, cu coloanele din BOCP (eCommerce / Bonuri de vânzare) -->
+    <record id="rogri_comenzi_list" model="ir.ui.view">
+        <field name="name">sale.order.list.rogri</field>
+        <field name="model">sale.order</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list string="Comenzi" decoration-danger="rogri_lipsa_stoc" decoration-muted="state == 'cancel'"
+                  default_order="date_order desc">
+                <field name="rogri_lipsa_stoc" column_invisible="1"/>
+                <field name="name" string="Nr."/>
+                <field name="date_order" string="Data" widget="date"/>
+                <field name="rogri_sursa" optional="show"/>
+                <field name="partner_id" string="Client"/>
+                <field name="amount_total" string="Total" sum="Total"/>
+                <field name="rogri_profit_pct" optional="show"/>
+                <field name="rogri_etapa" widget="badge"
+                       decoration-info="rogri_etapa in ('nepreluata', 'in_procesare')"
+                       decoration-warning="rogri_etapa in ('confirmare_plata', 'asteptare_client', 'produse_lipsa', 'productie')"
+                       decoration-success="rogri_etapa in ('livrata', 'finalizata', 'predat_curier')"
+                       decoration-danger="rogri_etapa in ('returnata', 'anulata')"/>
+                <field name="rogri_metoda_plata" optional="show"/>
+                <field name="rogri_ridicare_personala" optional="hide"/>
+                <field name="rogri_ref_externa" optional="hide"/>
+                <field name="rogri_awb" optional="show"/>
+                <field name="invoice_status" string="Factură" widget="badge" optional="show"
+                       decoration-warning="invoice_status == 'to invoice'"
+                       decoration-success="invoice_status == 'invoiced'"/>
+                <field name="user_id" string="Responsabil" widget="many2one_avatar_user" optional="show"/>
+                <field name="state" column_invisible="1"/>
+                <button name="action_rogri_awb" type="object" string="AWB" icon="fa-truck" class="btn-link"
+                        invisible="state == 'cancel' or rogri_awb"/>
+                <button name="action_rogri_emite_factura" type="object" string="Emite" icon="fa-file-text-o"
+                        class="btn-link" invisible="invoice_status != 'to invoice' and state != 'draft'"
+                        confirm="Se emite factura pentru această comandă. Continui?"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Tabla pe etape, pentru call center -->
+    <record id="rogri_comenzi_kanban" model="ir.ui.view">
+        <field name="name">sale.order.kanban.rogri</field>
+        <field name="model">sale.order</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="rogri_etapa" quick_create="false" group_create="false"
+                    group_delete="false" group_edit="false" records_draggable="true">
+                <field name="currency_id"/>
+                <field name="rogri_lipsa_stoc"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-baseline mb-1">
+                            <field name="partner_id" class="fw-bolder me-2"/>
+                            <field name="amount_total" widget="monetary" class="fw-bolder ms-auto"/>
+                        </div>
+                        <div class="text-muted small">
+                            <field name="name"/> · <field name="rogri_sursa"/>
+                        </div>
+                        <div class="small">
+                            <field name="rogri_metoda_plata"/>
+                            <span t-if="record.rogri_lipsa_stoc.raw_value" class="badge text-bg-danger ms-1">Lipsă stoc</span>
+                        </div>
+                        <footer>
+                            <field name="date_order" widget="date" class="text-muted small"/>
+                            <field name="user_id" widget="many2one_avatar_user" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Câmpurile noi și pe fișa comenzii -->
+    <record id="rogri_comenzi_form" model="ir.ui.view">
+        <field name="name">sale.order.form.rogri</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_rogri_emite_factura" type="object" string="Emite factura" class="btn-secondary"
+                        invisible="invoice_status != 'to invoice'"
+                        confirm="Se emite factura pentru această comandă. Continui?"/>
+                <button name="action_rogri_awb" type="object" string="AWB" class="btn-secondary"
+                        invisible="state != 'sale' or rogri_awb"/>
+            </xpath>
+            <xpath expr="//header/field[@name='state']" position="before">
+                <field name="rogri_etapa" widget="badge" invisible="state == 'draft'"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="rogri_sursa"/>
+                <field name="rogri_ref_externa" invisible="rogri_sursa == 'manual'"/>
+            </xpath>
+            <xpath expr="//group[@name='order_details']" position="inside">
+                <field name="rogri_etapa"/>
+                <field name="rogri_metoda_plata"/>
+                <field name="rogri_ridicare_personala"/>
+                <field name="rogri_awb"/>
+                <field name="rogri_profit_pct" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Căutare și filtre ca filele din BOCP -->
+    <record id="rogri_comenzi_search" model="ir.ui.view">
+        <field name="name">sale.order.search.rogri</field>
+        <field name="model">sale.order</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <search string="Comenzi">
+                <field name="name" string="Nr. / referință" filter_domain="['|', '|', ('name', 'ilike', self), ('client_order_ref', 'ilike', self), ('rogri_ref_externa', 'ilike', self)]"/>
+                <field name="partner_id" string="Client" operator="child_of"/>
+                <field name="rogri_awb"/>
+                <field name="order_line" string="Produs" filter_domain="[('order_line.product_id', 'ilike', self)]"/>
+                <field name="user_id" string="Responsabil"/>
+                <separator/>
+                <filter name="f_manual" string="Ofertare și comenzi (manual)" domain="[('rogri_sursa', 'in', ('manual', 'portal'))]"/>
+                <filter name="f_ecommerce" string="eCommerce (magazine)" domain="[('rogri_sursa', 'in', ('ambalajecurierat', 'rogri_ro'))]"/>
+                <filter name="f_emag" string="eMag" domain="[('rogri_sursa', '=', 'emag')]"/>
+                <separator/>
+                <filter name="f_oferte" string="Oferte (neconfirmate)" domain="[('state', 'in', ('draft', 'sent'))]"/>
+                <filter name="f_confirmate" string="Comenzi confirmate" domain="[('state', '=', 'sale')]"/>
+                <separator/>
+                <filter name="f_noi" string="Comenzi noi" domain="[('rogri_etapa', '=', 'nepreluata'), ('state', '!=', 'cancel')]"/>
+                <filter name="f_prelucrare" string="În prelucrare" domain="[('rogri_etapa', 'in', ('in_procesare', 'confirmare_plata', 'asteptare_client', 'produse_lipsa', 'productie', 'pregatita'))]"/>
+                <filter name="f_livrare" string="În livrare" domain="[('rogri_etapa', 'in', ('predat_curier', 'ridicare'))]"/>
+                <filter name="f_finalizate" string="Finalizate" domain="[('rogri_etapa', 'in', ('livrata', 'finalizata'))]"/>
+                <filter name="f_anulate" string="Anulate / returnate" domain="['|', ('state', '=', 'cancel'), ('rogri_etapa', 'in', ('anulata', 'returnata'))]"/>
+                <separator/>
+                <filter name="f_de_facturat" string="De facturat!" domain="[('invoice_status', '=', 'to invoice')]"/>
+                <filter name="f_fara_awb" string="Fără AWB" domain="[('state', '=', 'sale'), ('rogri_awb', '=', False), ('rogri_ridicare_personala', '=', False)]"/>
+                <filter name="f_ridicare" string="Ridicare client" domain="[('rogri_ridicare_personala', '=', True), ('rogri_etapa', 'not in', ('livrata', 'finalizata', 'anulata'))]"/>
+                <filter name="f_ale_mele" string="Ale mele" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="f_azi" string="Azi" domain="[('date_order', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <filter name="f_data" string="Data" date="date_order"/>
+                <group>
+                    <filter name="g_etapa" string="Etapă" context="{'group_by': 'rogri_etapa'}"/>
+                    <filter name="g_sursa" string="Sursă" context="{'group_by': 'rogri_sursa'}"/>
+                    <filter name="g_resp" string="Responsabil" context="{'group_by': 'user_id'}"/>
+                    <filter name="g_client" string="Client" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

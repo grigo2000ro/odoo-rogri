@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- O acțiune pe fiecare fișă din meniu, ca în BOCP. Toate folosesc aceleași ecrane (listă, tablă, fișă). -->
+    <record id="action_rogri_toate" model="ir.actions.act_window">
+        <field name="name">Toate comenzile</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi_kanban')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+    </record>
+
+    <record id="action_rogri_ofertare" model="ir.actions.act_window">
+        <field name="name">Ofertare și comenzi</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi_kanban')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="context">{'search_default_f_manual': 1, 'default_rogri_sursa': 'manual'}</field>
+    </record>
+
+    <record id="action_rogri_ecommerce" model="ir.actions.act_window">
+        <field name="name">eCommerce</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi_kanban')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="context">{'search_default_f_ecommerce': 1}</field>
+    </record>
+
+    <record id="action_rogri_emag" model="ir.actions.act_window">
+        <field name="name">eMag</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi_kanban')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="context">{'search_default_f_emag': 1, 'default_rogri_sursa': 'emag'}</field>
+    </record>
+
+    <record id="action_rogri_tabla" model="ir.actions.act_window">
+        <field name="name">Tablă comenzi (pe etape)</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi_kanban')}),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="domain">[('state', '!=', 'cancel'), ('rogri_etapa', 'not in', ('finalizata', 'anulata'))]</field>
+    </record>
+
+    <record id="action_rogri_de_facturat" model="ir.actions.act_window">
+        <field name="name">De facturat!</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="context">{'search_default_f_de_facturat': 1}</field>
+    </record>
+
+    <record id="action_rogri_ridicare" model="ir.actions.act_window">
+        <field name="name">Ridicare client</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi_list')})]"/>
+        <field name="search_view_id" ref="rogri_comenzi_search"/>
+        <field name="context">{'search_default_f_ridicare': 1}</field>
+    </record>
+
+    <!-- Meniul de sus „Comenzi”, cu iconița aplicației Vânzări -->
+    <menuitem id="menu_rogri_comenzi_root" name="Comenzi" sequence="5" web_icon="sale,static/description/icon.png"
+              groups="sales_team.group_sale_salesman"/>
+    <menuitem id="menu_rogri_comenzi" name="Comenzi și oferte" parent="menu_rogri_comenzi_root" sequence="10"/>
+    <menuitem id="menu_rogri_toate" name="Toate comenzile" parent="menu_rogri_comenzi" action="action_rogri_toate" sequence="1"/>
+    <menuitem id="menu_rogri_ofertare" name="Ofertare și comenzi" parent="menu_rogri_comenzi" action="action_rogri_ofertare" sequence="2"/>
+    <menuitem id="menu_rogri_ecommerce" name="eCommerce" parent="menu_rogri_comenzi" action="action_rogri_ecommerce" sequence="3"/>
+    <menuitem id="menu_rogri_emag" name="eMag" parent="menu_rogri_comenzi" action="action_rogri_emag" sequence="4"/>
+    <menuitem id="menu_rogri_tabla" name="Tablă comenzi" parent="menu_rogri_comenzi_root" action="action_rogri_tabla" sequence="20"/>
+    <menuitem id="menu_rogri_facturare" name="Facturare" parent="menu_rogri_comenzi_root" sequence="30"/>
+    <menuitem id="menu_rogri_de_facturat" name="De facturat!" parent="menu_rogri_facturare" action="action_rogri_de_facturat" sequence="1"/>
+    <menuitem id="menu_rogri_ridicare" name="Ridicare client" parent="menu_rogri_facturare" action="action_rogri_ridicare" sequence="2"/>
+    <menuitem id="menu_rogri_facturi" name="Facturi emise" parent="menu_rogri_facturare" action="account.action_move_out_invoice_type" sequence="3"/>
+</odoo>

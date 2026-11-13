@@ -76,5 +76,20 @@
   pentru toți) și e deja extrasă în proiectul `ambalajecurierat` (`date/extras/`). În Odoo ar fi o listă cu praguri
   (`min_quantity`) — pas separat.
 - Capcane BOCP: fereastra listei se deschide pe ultimul tab folosit; la listele mici lipsește selectorul de pagină.
+
+## 13.11.2026
+- Grig: call center + facturare lucrează în Comenzi (Ofertare și Comenzi, eCommerce, eMag) și Vânzări → Bonuri de
+  vânzare; logistica în Gestiune, Rapoarte, Comenzi, Catalog; Ana (contabilitate) în Financiar, Integrări, Comenzi.
+  Ecranele citite și descrise în `docs/ecrane_bocp.md`.
+- **Primul modul propriu `addons/rogri_comenzi`** (instalat în odoo_test): meniul de sus „Comenzi” ca în BOCP
+  (Toate / Ofertare și comenzi / eCommerce / eMag; Tablă comenzi; Facturare → De facturat!, Ridicare client,
+  Facturi emise). Pe comandă: sursă, etapă (valorile din BOCP), metodă plată, ridicare personală, AWB, referință
+  externă, profit % (din marja Odoo), alertă „lipsă stoc” (rând roșu / etichetă pe card). Butoane pe rând:
+  **Emite** (confirmă + facturează + validează) și **AWB** (deocamdată doar mesaj — Innoship urmează).
+  Filtre ca filele din BOCP: comenzi noi, în prelucrare, în livrare, finalizate, de facturat, fără AWB, ridicare.
+  Verificat în shell (profit S00003 = 40,3%, Emite → INV/2026/00002) și în browser (listă + tablă).
+- Capcane: `docker compose restart` din același script nu se executase (Odoo „Up 16 hours”) → site-ul nu vedea
+  câmpurile noi; browserul ținea ecranele vechi în memorie (IndexedDB) → acum `server/instaleaza_modul.sh` repornește
+  și verifică; în browser Ctrl+Shift+R.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
