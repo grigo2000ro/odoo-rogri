@@ -133,5 +133,9 @@
   restul de ~457 sunt amestecate (ex. „Str Sofiei str. Sofiei 3str. Sofiei 3…”) → de corectat de un om; câteva
   „× 2” sunt false alarme („Mircea Vodă … intersecție Mircea Vodă”). Separat: **735 adrese de livrare identice cu
   sediul** (scrise puțin diferit) — inutile. Nu există livrări dublate la același client.
+  **Curățat (Grig: „pe toate trei”, `server/curata_adrese.py`)**: 428 repetate exact → o singură dată (ex. BOCP-26421
+  „STR MITROPOLIEI NR 39”); 463 amestecate → eticheta **„Adresă de verificat (BOCP)”** (461 rămase după pasul 3;
+  Contacte → filtrează după etichetă); 754 livrări identice cu sediul → șterse (niciuna folosită pe comenzi/facturi).
+  Copie înainte: `/root/backup-claude/odoo_test_adrese_inainte_20261113_1130.csv` (1.645 rânduri).
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
