@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rogri_magazin_form" model="ir.ui.view">
+        <field name="name">rogri.magazin.form</field>
+        <field name="model">rogri.magazin</field>
+        <field name="arch" type="xml">
+            <form string="Magazin online">
+                <header>
+                    <button name="action_test_legatura" type="object" string="Test legătură" class="btn-secondary"/>
+                    <button name="action_sincronizeaza" type="object" string="Preia comenzile noi acum" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_vezi_comenzi" type="object" class="oe_stat_button" icon="fa-shopping-cart">
+                            <field name="nr_comenzi" widget="statinfo" string="Comenzi preluate"/>
+                        </button>
+                        <button name="action_vezi_probleme" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                            <field name="nr_probleme" widget="statinfo" string="Probleme"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <group>
+                        <group string="Magazin">
+                            <field name="tip"/>
+                            <field name="url" widget="url"/>
+                            <field name="sursa"/>
+                            <field name="activ"/>
+                            <field name="ultima_sincronizare"/>
+                        </group>
+                        <group string="Acces (doar administratorul)" groups="base.group_system">
+                            <field name="cheie" password="True"/>
+                            <field name="secret" password="True"/>
+                            <field name="http_user"/>
+                            <field name="http_parola" password="True"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="rogri_magazin_list" model="ir.ui.view">
+        <field name="name">rogri.magazin.list</field>
+        <field name="model">rogri.magazin</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="url"/>
+                <field name="sursa"/>
+                <field name="activ"/>
+                <field name="ultima_sincronizare"/>
+                <field name="nr_comenzi"/>
+                <field name="nr_probleme"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="rogri_magazin_jurnal_list" model="ir.ui.view">
+        <field name="name">rogri.magazin.jurnal.list</field>
+        <field name="model">rogri.magazin.jurnal</field>
+        <field name="arch" type="xml">
+            <list create="false" decoration-danger="tip == 'problema'">
+                <field name="create_date" string="Data"/>
+                <field name="magazin_id"/>
+                <field name="ref_externa"/>
+                <field name="comanda_id"/>
+                <field name="tip" widget="badge" decoration-success="tip == 'ok'" decoration-danger="tip == 'problema'"/>
+                <field name="mesaj"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="rogri_magazin_jurnal_search" model="ir.ui.view">
+        <field name="name">rogri.magazin.jurnal.search</field>
+        <field name="model">rogri.magazin.jurnal</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref_externa"/>
+                <field name="mesaj"/>
+                <field name="magazin_id"/>
+                <filter name="probleme" string="Probleme" domain="[('tip', '=', 'problema')]"/>
+                <filter name="ok" string="OK" domain="[('tip', '=', 'ok')]"/>
+                <group>
+                    <filter name="g_magazin" string="Magazin" context="{'group_by': 'magazin_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_rogri_magazin_jurnal" model="ir.actions.act_window">
+        <field name="name">Jurnal preluare</field>
+        <field name="res_model">rogri.magazin.jurnal</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="rogri_magazin_jurnal_search"/>
+    </record>
+
+    <record id="action_rogri_magazin_comenzi" model="ir.actions.act_window">
+        <field name="name">Comenzi din magazine</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('rogri_comenzi.rogri_comenzi_list')}),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('rogri_comenzi.rogri_comenzi_kanban')})]"/>
+        <field name="domain">[('rogri_magazin_id', '!=', False)]</field>
+    </record>
+
+    <record id="action_rogri_magazine" model="ir.actions.act_window">
+        <field name="name">Magazine online</field>
+        <field name="res_model">rogri.magazin</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_rogri_configurare" name="Configurare" parent="rogri_comenzi.menu_rogri_comenzi_root" sequence="90"/>
+    <menuitem id="menu_rogri_magazine" name="Magazine online" parent="menu_rogri_configurare" action="action_rogri_magazine" sequence="1"/>
+    <menuitem id="menu_rogri_magazin_jurnal" name="Jurnal preluare" parent="menu_rogri_configurare" action="action_rogri_magazin_jurnal" sequence="2"/>
+</odoo>

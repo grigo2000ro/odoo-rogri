@@ -91,5 +91,20 @@
 - Capcane: `docker compose restart` din același script nu se executase (Odoo „Up 16 hours”) → site-ul nu vedea
   câmpurile noi; browserul ținea ecranele vechi în memorie (IndexedDB) → acum `server/instaleaza_modul.sh` repornește
   și verifică; în browser Ctrl+Shift+R.
+- **Etapa 1a — comenzi din magazin în Odoo** (modul `addons/rogri_magazine`):
+  - Magazinul de test WooCommerce are 7.567 comenzi aduse din Magento (2022–2026, stare „arhiva-magento”), 260
+    produse cu SKU — **toate cele 260 de coduri există în Odoo**. Prețuri fără TVA, CUI în `_billing_cui`.
+  - Cheie API WooCommerce **doar de citire** („Odoo test”, id 1), salvată în `/root/secrete/odoo-test.env`
+    (`WOO_TEST_CK/CS`); site-ul de test cere și parola HTTP (merge: parolă HTTP + cheia în adresă).
+  - Odoo citește la 5 minute comenzile modificate (cron „Rogri: preluare comenzi…”) și creează **oferte** (nu
+    confirmă → nu mișcă stocul, nu trimite nimic). Client după CUI, apoi e-mail; altfel client nou. Produse după
+    cod. Transportul și taxele ca linii de serviciu. Starea din magazin → etapa. Tot ce nu se potrivește → Comenzi →
+    Configurare → Jurnal preluare. Comanda deja preluată nu se dublează (constrângere magazin + nr.).
+  - Probă pe ultimele 60: **0 diferențe de total, 0 produse negăsite**; 36 cu clientul din BOCP, 3 clienți noi,
+    21 fără date de client (comenzile vechi din Magento au venit în magazinul de test fără nume/adresă/e-mail).
+  - **Flux viu verificat:** comanda de test #8601 plasată în magazin (client „Test Odoo”, ramburs, 331,54 lei,
+    e-mailuri blocate în script) a apărut singură în Odoo în ≤5 minute, cu același total. Comanda #8601 rămâne în
+    magazinul de test (creată „test-odoo”).
+  - De verificat în BOCP: clienții din comenzile recente negăsiți după CUI/e-mail/telefon (exportul BOCP îi are?).
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.

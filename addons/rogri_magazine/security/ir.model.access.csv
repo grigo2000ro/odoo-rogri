@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rogri_magazin_vanzari,magazin vanzari,model_rogri_magazin,sales_team.group_sale_salesman,1,0,0,0
+access_rogri_magazin_admin,magazin admin,model_rogri_magazin,base.group_system,1,1,1,1
+access_rogri_magazin_jurnal_vanzari,jurnal vanzari,model_rogri_magazin_jurnal,sales_team.group_sale_salesman,1,0,0,0
+access_rogri_magazin_jurnal_admin,jurnal admin,model_rogri_magazin_jurnal,base.group_system,1,1,1,1
