@@ -120,6 +120,9 @@
   - cron noaptea (01:30 UTC): 2.000 de clienți cu CUI, cei mai vechi verificați întâi.
   - Primul lot (200 clienți BOCP): 173 activi, **21 INACTIVI, 2 RADIAȚI**, 4 CUI invalid; 34 cu „RO” greșit
     (plătitor/neplătitor TVA), 14 denumiri diferite (unele CUI-uri aparțin altei firme!), 28 localități diferite.
+  - **Verificarea completă** (29.245 clienți cu CUI, ~12 minute): 27.084 activi, **1.692 INACTIVI, 192 RADIAȚI**,
+    10 negăsiți, 267 CUI invalid; **2.921 cu „RO” greșit**, 1.423 denumiri diferite, 5.351 localități diferite;
+    15.774 plătitori TVA, 7.981 în registrul e-Factura. De curățat înainte de trecere (filtrele din Contacte).
   - Comparația ține cont de forme diferite: „Mun. Cluj-Napoca” = „Cluj Napoca”, „SC X SRL” = „X S.R.L.”, PFA.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.
