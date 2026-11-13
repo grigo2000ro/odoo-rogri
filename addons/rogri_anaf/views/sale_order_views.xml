@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rogri_anaf_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.rogri.anaf</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="rogri_cui_client" placeholder="Scrie CUI-ul → clientul vine din Odoo sau din ANAF"
+                       invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="rogri_client_anaf_stare" widget="badge" readonly="1"
+                       invisible="not rogri_client_anaf_stare"
+                       decoration-success="rogri_client_anaf_stare == 'activ'"
+                       decoration-danger="rogri_client_anaf_stare in ('inactiv', 'radiat', 'negasit', 'cui_invalid')"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

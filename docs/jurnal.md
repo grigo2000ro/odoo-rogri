@@ -106,5 +106,20 @@
     e-mailuri blocate în script) a apărut singură în Odoo în ≤5 minute, cu același total. Comanda #8601 rămâne în
     magazinul de test (creată „test-odoo”).
   - De verificat în BOCP: clienții din comenzile recente negăsiți după CUI/e-mail/telefon (exportul BOCP îi are?).
+- **Verificare ANAF după CUI** (modul `addons/rogri_anaf`, serviciul public PlatitorTvaRest v9, același ca în
+  magazin; max. 100 CUI/cerere, 1 cerere/s):
+  - fișa partenerului: tab „ANAF” (stare activ / INACTIV / RADIAT / negăsit / CUI invalid, plătitor TVA, TVA la
+    încasare, split TVA, e-Factura, diferențe față de ANAF) + bandă roșie dacă firma e inactivă/radiată; butoane
+    „Verifică la ANAF” și „Completează din ANAF” (cu confirmare); filtre „Probleme ANAF”, „Date diferite de ANAF”;
+    verificare în masă din listă (Acțiuni → Verifică la ANAF);
+  - partener nou: scrii CUI-ul → denumire, adresă, județ, Reg. Com., RO după TVA vin din ANAF;
+  - comandă manuală: câmp „CUI client” → clientul existent sau creat din ANAF (verificat în browser cu 4221306 →
+    Ministerul Finanțelor; clientul de probă șters); starea ANAF a clientului apare pe comandă;
+  - clienții din magazine cu CUI se verifică la preluare (cei noi se completează din ANAF); inactiv/radiat → problemă
+    în Jurnal preluare;
+  - cron noaptea (01:30 UTC): 2.000 de clienți cu CUI, cei mai vechi verificați întâi.
+  - Primul lot (200 clienți BOCP): 173 activi, **21 INACTIVI, 2 RADIAȚI**, 4 CUI invalid; 34 cu „RO” greșit
+    (plătitor/neplătitor TVA), 14 denumiri diferite (unele CUI-uri aparțin altei firme!), 28 localități diferite.
+  - Comparația ține cont de forme diferite: „Mun. Cluj-Napoca” = „Cluj Napoca”, „SC X SRL” = „X S.R.L.”, PFA.
 - Capcane Odoo 19: categoria-rădăcină „All” (`product.product_category_all`) nu mai există; prețul implicit e 1 leu;
   fișierele copiate în container sunt ale lui root → se șterg cu `exec -u root`.

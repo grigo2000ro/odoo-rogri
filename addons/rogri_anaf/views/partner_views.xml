@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rogri_anaf_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.rogri.anaf</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger mb-0 text-center" role="alert"
+                     invisible="rogri_anaf_stare not in ('inactiv', 'radiat')">
+                    Atenție: firma este <field name="rogri_anaf_stare" readonly="1" class="fw-bold"/> la ANAF.
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="ANAF" name="rogri_anaf" invisible="not vat or parent_id">
+                    <div class="mb-2">
+                        <button name="action_rogri_verifica_anaf" type="object" string="Verifică la ANAF" class="btn-secondary me-2"/>
+                        <button name="action_rogri_completeaza_anaf" type="object" string="Completează din ANAF"
+                                class="btn-secondary"
+                                confirm="Denumirea, CUI-ul, adresa și Reg. Com. vor fi înlocuite cu datele din ANAF. Continui?"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="rogri_anaf_stare" widget="badge"
+                                   decoration-success="rogri_anaf_stare == 'activ'"
+                                   decoration-danger="rogri_anaf_stare in ('inactiv', 'radiat', 'negasit', 'cui_invalid')"/>
+                            <field name="rogri_anaf_denumire"/>
+                            <field name="rogri_anaf_diferente" decoration-warning="rogri_anaf_diferente"/>
+                            <field name="rogri_anaf_data"/>
+                        </group>
+                        <group>
+                            <field name="rogri_platitor_tva"/>
+                            <field name="rogri_tva_incasare"/>
+                            <field name="rogri_split_tva"/>
+                            <field name="rogri_efactura"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="rogri_anaf_partner_list" model="ir.ui.view">
+        <field name="name">res.partner.list.rogri.anaf</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="rogri_anaf_stare" optional="show" widget="badge"
+                       decoration-success="rogri_anaf_stare == 'activ'"
+                       decoration-danger="rogri_anaf_stare in ('inactiv', 'radiat', 'negasit', 'cui_invalid')"/>
+                <field name="rogri_platitor_tva" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="rogri_anaf_partner_search" model="ir.ui.view">
+        <field name="name">res.partner.search.rogri.anaf</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter name="f_anaf_probleme" string="Probleme ANAF (inactiv, radiat, negăsit)"
+                        domain="[('rogri_anaf_stare', 'in', ('inactiv', 'radiat', 'negasit', 'cui_invalid'))]"/>
+                <filter name="f_anaf_diferente" string="Date diferite de ANAF" domain="[('rogri_anaf_diferente', '!=', False)]"/>
+                <filter name="f_anaf_neverificat" string="Neverificat la ANAF"
+                        domain="[('vat', '!=', False), ('parent_id', '=', False), ('rogri_anaf_data', '=', False)]"/>
+                <filter name="g_anaf" string="Stare ANAF" context="{'group_by': 'rogri_anaf_stare'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Verificare la ANAF pentru mai mulți parteneri selectați în listă -->
+    <record id="action_rogri_verifica_anaf_selectie" model="ir.actions.server">
+        <field name="name">Verifică la ANAF</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_rogri_verifica_anaf()</field>
+    </record>
+</odoo>

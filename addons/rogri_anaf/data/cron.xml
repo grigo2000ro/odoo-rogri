@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Noaptea: verifică la ANAF 2.000 de clienți cu CUI, cei mai vechi verificați întâi (~30.000 → ciclu de ~15 zile) -->
+    <record id="cron_verificare_anaf" model="ir.cron">
+        <field name="name">Rogri: verificare ANAF clienți cu CUI</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_rogri_verifica_anaf()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d 01:30:00')"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>
